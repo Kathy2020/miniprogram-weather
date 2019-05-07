@@ -53,22 +53,22 @@ Page({
     this.qqmapsdk = new QQMapWX({
       key: '2K2BZ-L4S6I-H2UGO-5BYEU-66M4V-X6FGJ'
     })
-    this.getNow()    
-  },
-  onShow(){
-    // console.log('onShow')
     wx.getSetting({
-      success: res=>{
+      success: res => {
         let auth = res.authSetting['scope.userLocation']
-        if (auth && this.data.locationAuthType != AUTHORIZED){
-          //权限从无到有
-          this.setData({
-            locationAuthType: AUTHORIZED,
-            locationTipsText: AUTHORIZED_TIPS
-          })
-          this.getLocation()
-        }
-        //权限从有到无、未处理
+        let locationAuthType = auth ? AUTHORIZED : (auth===false)? UNAUTHORIZED : UNPROMPTED
+        let locationTipsText = auth ? AUTHORIZED_TIPS : (auth === false) ? UNAUTHORIZED_TIPS : UNPROMPTED_TIPS
+        this.setData({
+          locationAuthType: locationAuthType,
+          locationTipsText: locationTipsText
+        })
+        if (auth)
+          this.getCityAndWeather()
+        else
+          this.getNow()   //使用默认城市深圳 
+      },
+      fail: ()=>{
+        this.getNow()   //使用默认城市深圳
       }
     })
   },
@@ -141,9 +141,9 @@ Page({
   },
 
   onTapLocation(){
-      this.getLocation()
+      this.getCityAndWeather()
   },
-  getLocation(){
+  getCityAndWeather(){
     wx.getLocation({
       success: res =>{
         this.setData({
@@ -158,7 +158,6 @@ Page({
           },
           success: res=>{
             let city = res.result.address_component.city
-            // console.log(city)
             this.setData({
               city: city,
               // locationTipsText: ""
