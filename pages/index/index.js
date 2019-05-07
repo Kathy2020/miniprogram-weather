@@ -141,9 +141,6 @@ Page({
   },
 
   onTapLocation(){
-    if(this.data.locationAuthType === UNAUTHORIZED)
-      wx.openSetting()
-    else
       this.getLocation()
   },
   getLocation(){

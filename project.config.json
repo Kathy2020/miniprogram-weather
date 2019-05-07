@@ -12,9 +12,9 @@
 		"autoAudits": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.0.4",
+	"libVersion": "2.6.6",
 	"appid": "wxaf99d7cce840dbbe",
-	"projectname": "miniprogram-test-1",
+	"projectname": "miniprogram-weather",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
